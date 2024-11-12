@@ -1,10 +1,6 @@
 ﻿using InsideSistemas.Application.DTOs;
 using InsideSistemas.Domain.Entities;
 using InsideSistemas.Domain.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace InsideSistemas.Application.Services
 {
@@ -37,10 +33,15 @@ namespace InsideSistemas.Application.Services
             if (pedido.EstaFechado)
                 throw new InvalidOperationException("Não é possível adicionar produtos a um pedido fechado.");
 
-            var produto = new Produto(produtoDto.Id, produtoDto.Nome, produtoDto.Preco, produtoDto.Quantidade);
+            var produto = new Produto(produtoDto.Nome, produtoDto.Preco, produtoDto.Quantidade);
+
+            if (!produto.IsValid())
+                throw new InvalidOperationException("O produto não é válido.");
+
             pedido.AdicionarProduto(produto);
 
             await _pedidoRepository.SalvarAlteracoesAsync();
+
             return MapToPedidoDTO(pedido);
         }
 
@@ -95,7 +96,6 @@ namespace InsideSistemas.Application.Services
             return MapToPedidoDTO(pedido);
         }
 
-        // Método para mapear uma entidade Pedido para um DTO PedidoDTO
         private PedidoDTO MapToPedidoDTO(Pedido pedido)
         {
             return new PedidoDTO
@@ -105,7 +105,6 @@ namespace InsideSistemas.Application.Services
                 EstaFechado = pedido.EstaFechado,
                 Produtos = pedido.Produtos.Select(p => new ProdutoDTO
                 {
-                    Id = p.Id,
                     Nome = p.Nome,
                     Preco = p.Preco,
                     Quantidade = p.Quantidade

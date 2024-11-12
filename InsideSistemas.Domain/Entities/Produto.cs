@@ -7,12 +7,25 @@
         public decimal Preco { get; private set; }
         public int Quantidade { get; private set; }
 
-        public Produto(int id, string nome, decimal preco, int quantidade)
+        public Produto(string nome, decimal preco, int quantidade)
         {
-            Id = id;
             Nome = nome;
             Preco = preco;
             Quantidade = quantidade;
+        }
+
+        public bool IsValid()
+        {
+            if (string.IsNullOrWhiteSpace(Nome) || Nome.Length > 100)
+                return false;
+
+            if (Preco <= 0)
+                return false;
+
+            if (Quantidade <= 0)
+                return false;
+
+            return true;
         }
     }
 }
