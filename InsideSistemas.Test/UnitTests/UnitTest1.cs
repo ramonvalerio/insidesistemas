@@ -1,4 +1,4 @@
-namespace InsideSistemas.Test
+namespace InsideSistemas.Test.UnitTests
 {
     public class UnitTest1
     {
