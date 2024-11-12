@@ -1,4 +1,5 @@
-﻿using InsideSistemas.Infrastructure.Data;
+﻿using InsideSistemas.Domain.Repositories;
+using InsideSistemas.Infrastructure.Data;
 using InsideSistemas.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,10 +11,10 @@ namespace InsideSistemas.Infrastructure
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, string connectionString)
         {
             // Add DbContext configuration
-            //services.AddDbContext<AppDbContext>(options =>
-            //    options.UseSqlServer(connectionString));
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(connectionString));
 
-            // Registro dos repositórios da camada Infrastructure
+            // Add Repositories
             services.AddScoped<IPedidoRepository, PedidoRepository>();
 
             return services;

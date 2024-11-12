@@ -47,18 +47,18 @@ namespace InsideSistemas.Api.Controllers
             return Ok(pedidoAtualizado);
         }
 
+        [HttpPost("{pedidoId}/fechar")]
+        public async Task<IActionResult> FecharPedido(int pedidoId)
+        {
+            var pedidoFechado = await _pedidoAppService.FecharPedidoAsync(pedidoId);
+            return Ok(pedidoFechado);
+        }
+
         [HttpDelete("{pedidoId}/remover-produto/{produtoId}")]
         public async Task<IActionResult> RemoverProdutoDoPedido(int pedidoId, int produtoId)
         {
             var pedidoAtualizado = await _pedidoAppService.RemoverProdutoDoPedidoAsync(pedidoId, produtoId);
             return Ok(pedidoAtualizado);
         }
-
-        [HttpPost("{pedidoId}/fechar")]
-        public async Task<IActionResult> FecharPedido(int pedidoId)
-        {
-            var pedidoFechado = await _pedidoAppService.FecharPedidoAsync(pedidoId);
-            return Ok(pedidoFechado);
-        }   
     }
 }
