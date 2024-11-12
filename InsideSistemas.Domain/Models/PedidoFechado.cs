@@ -1,11 +1,11 @@
-﻿namespace InsideSistemas.Domain.Events
+﻿namespace InsideSistemas.Domain.Models
 {
-    public class PedidoFechadoEvent
+    public class PedidoFechado
     {
         public int PedidoId { get; private set; }
         public DateTime DataFechamento { get; private set; }
 
-        public PedidoFechadoEvent(int pedidoId)
+        public PedidoFechado(int pedidoId)
         {
             PedidoId = pedidoId;
             DataFechamento = DateTime.UtcNow;
