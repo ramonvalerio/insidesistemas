@@ -48,7 +48,7 @@ namespace InsideSistemas.Api.Controllers
             var pedido = await _pedidoAppService.ObterPedidoPorIdAsync(pedidoId);
             if (pedido == null)
             {
-                return NotFound();
+                return NotFound(new { Message = "Pedido não encontrado." });
             }
             return Ok(pedido);
         }
