@@ -1,5 +1,4 @@
-﻿using InsideSistemas.Application.DTOs;
-using InsideSistemas.Application.Services;
+﻿using InsideSistemas.Application.Pedidos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InsideSistemas.Api.Controllers
@@ -23,7 +22,7 @@ namespace InsideSistemas.Api.Controllers
         }
 
         [HttpPost("{pedidoId}/adicionar-produto")]
-        public async Task<IActionResult> AdicionarProdutoAoPedido(int pedidoId, [FromBody] ProdutoDTO produto)
+        public async Task<IActionResult> AdicionarProdutoAoPedido(int pedidoId, [FromBody] ProdutoCommand produto)
         {
             var pedidoAtualizado = await _pedidoAppService.AdicionarProdutoAoPedidoAsync(pedidoId, produto);
             return Ok(pedidoAtualizado);

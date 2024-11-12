@@ -1,8 +1,7 @@
-﻿using InsideSistemas.Application.DTOs;
-using InsideSistemas.Domain.Entities;
+﻿using InsideSistemas.Domain.Entities;
 using InsideSistemas.Domain.Repositories;
 
-namespace InsideSistemas.Application.Services
+namespace InsideSistemas.Application.Pedidos
 {
     public class PedidoAppService : IPedidoAppService
     {
@@ -13,7 +12,7 @@ namespace InsideSistemas.Application.Services
             _pedidoRepository = pedidoRepository;
         }
 
-        public async Task<PedidoDTO> IniciarNovoPedidoAsync()
+        public async Task<PedidoQuery> IniciarNovoPedidoAsync()
         {
             var novoPedido = new Pedido();
 
@@ -23,7 +22,7 @@ namespace InsideSistemas.Application.Services
             return MapToPedidoDTO(novoPedido);
         }
 
-        public async Task<PedidoDTO> AdicionarProdutoAoPedidoAsync(int pedidoId, ProdutoDTO produtoDto)
+        public async Task<PedidoQuery> AdicionarProdutoAoPedidoAsync(int pedidoId, ProdutoCommand produtoDto)
         {
             var pedido = await _pedidoRepository.ObterPorIdAsync(pedidoId);
 
@@ -45,7 +44,7 @@ namespace InsideSistemas.Application.Services
             return MapToPedidoDTO(pedido);
         }
 
-        public async Task<PedidoDTO> RemoverProdutoDoPedidoAsync(int pedidoId, int produtoId)
+        public async Task<PedidoQuery> RemoverProdutoDoPedidoAsync(int pedidoId, int produtoId)
         {
             var pedido = await _pedidoRepository.ObterPorIdAsync(pedidoId);
 
@@ -65,7 +64,7 @@ namespace InsideSistemas.Application.Services
             return MapToPedidoDTO(pedido);
         }
 
-        public async Task<PedidoDTO> FecharPedidoAsync(int pedidoId)
+        public async Task<PedidoQuery> FecharPedidoAsync(int pedidoId)
         {
             var pedido = await _pedidoRepository.ObterPorIdAsync(pedidoId);
 
@@ -81,13 +80,13 @@ namespace InsideSistemas.Application.Services
             return MapToPedidoDTO(pedido);
         }
 
-        public async Task<IEnumerable<PedidoDTO>> ListarPedidosAsync()
+        public async Task<IEnumerable<PedidoQuery>> ListarPedidosAsync()
         {
             var pedidos = await _pedidoRepository.ListarTodosAsync();
             return pedidos.Select(MapToPedidoDTO);
         }
 
-        public async Task<PedidoDTO> ObterPedidoPorIdAsync(int pedidoId)
+        public async Task<PedidoQuery> ObterPedidoPorIdAsync(int pedidoId)
         {
             var pedido = await _pedidoRepository.ObterPorIdAsync(pedidoId);
             if (pedido == null)
@@ -96,15 +95,16 @@ namespace InsideSistemas.Application.Services
             return MapToPedidoDTO(pedido);
         }
 
-        private PedidoDTO MapToPedidoDTO(Pedido pedido)
+        private PedidoQuery MapToPedidoDTO(Pedido pedido)
         {
-            return new PedidoDTO
+            return new PedidoQuery
             {
                 Id = pedido.Id,
                 DataCriacao = pedido.DataCriacao,
                 EstaFechado = pedido.EstaFechado,
-                Produtos = pedido.Produtos.Select(p => new ProdutoDTO
+                Produtos = pedido.Produtos.Select(p => new ProdutoQuery
                 {
+                    Id = p.Id,
                     Nome = p.Nome,
                     Preco = p.Preco,
                     Quantidade = p.Quantidade

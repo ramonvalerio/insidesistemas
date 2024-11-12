@@ -1,4 +1,4 @@
-﻿using InsideSistemas.Application.Services;
+﻿using InsideSistemas.Application.Pedidos;
 using InsideSistemas.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 

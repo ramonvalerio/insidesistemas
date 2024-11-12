@@ -1,5 +1,4 @@
-using InsideSistemas.Application.DTOs;
-using InsideSistemas.Application.Services;
+using InsideSistemas.Application.Pedidos;
 using InsideSistemas.Domain.Entities;
 using InsideSistemas.Domain.Repositories;
 using Moq;
@@ -38,7 +37,7 @@ namespace InsideSistemas.Test.AppServices
 
             var pedidoAppService = new PedidoAppService(pedidoRepositoryMock.Object);
 
-            var produtoDto = new ProdutoDTO
+            var produtoCommand = new ProdutoCommand
             {
                 Nome = "Produto Teste",
                 Preco = 10.0m,
@@ -46,15 +45,15 @@ namespace InsideSistemas.Test.AppServices
             };
 
             // Act
-            var pedidoDTO = await pedidoAppService.AdicionarProdutoAoPedidoAsync(pedido.Id, produtoDto);
+            var pedidoCommand = await pedidoAppService.AdicionarProdutoAoPedidoAsync(pedido.Id, produtoCommand);
 
             // Assert
-            Assert.NotNull(pedidoDTO);
-            Assert.False(pedidoDTO.EstaFechado);
-            Assert.Single(pedidoDTO.Produtos);
-            Assert.Equal(produtoDto.Nome, pedidoDTO.Produtos[0].Nome);
-            Assert.Equal(produtoDto.Preco, pedidoDTO.Produtos[0].Preco);
-            Assert.Equal(produtoDto.Quantidade, pedidoDTO.Produtos[0].Quantidade);
+            Assert.NotNull(pedidoCommand);
+            Assert.False(pedidoCommand.EstaFechado);
+            Assert.Single(pedidoCommand.Produtos);
+            Assert.Equal(produtoCommand.Nome, pedidoCommand.Produtos[0].Nome);
+            Assert.Equal(produtoCommand.Preco, pedidoCommand.Produtos[0].Preco);
+            Assert.Equal(produtoCommand.Quantidade, pedidoCommand.Produtos[0].Quantidade);
 
             pedidoRepositoryMock.Verify(repo => repo.SalvarAlteracoesAsync(), Times.Once);
         }
@@ -158,7 +157,7 @@ namespace InsideSistemas.Test.AppServices
 
             var pedidoAppService = new PedidoAppService(pedidoRepositoryMock.Object);
 
-            var produtoDto = new ProdutoDTO
+            var produtoCommand = new ProdutoCommand
             {
                 Nome = "Produto Teste",
                 Preco = 10.0m,
@@ -167,7 +166,7 @@ namespace InsideSistemas.Test.AppServices
 
             // Act and Assert
             await Assert.ThrowsAsync<InvalidOperationException>(() =>
-                pedidoAppService.AdicionarProdutoAoPedidoAsync(pedido.Id, produtoDto));
+                pedidoAppService.AdicionarProdutoAoPedidoAsync(pedido.Id, produtoCommand));
 
             pedidoRepositoryMock.Verify(repo => repo.SalvarAlteracoesAsync(), Times.Never);
         }

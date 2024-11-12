@@ -1,6 +1,6 @@
-﻿namespace InsideSistemas.Application.DTOs
+﻿namespace InsideSistemas.Application.Pedidos
 {
-    public class ProdutoDTO
+    public class ProdutoCommand
     {
         public string Nome { get; set; }
 
