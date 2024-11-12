@@ -1,6 +1,9 @@
+using InsideSistemas.Application;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add All Services
+builder.Services.AddAllServices("My connectionString here");
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

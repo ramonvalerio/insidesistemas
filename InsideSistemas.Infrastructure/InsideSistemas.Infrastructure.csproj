@@ -7,17 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\InsideSistemas.Application\InsideSistemas.Application.csproj" />
     <ProjectReference Include="..\InsideSistemas.Domain\InsideSistemas.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\" />
     <Folder Include="Configurations\" />
     <Folder Include="Migrations\" />
     <Folder Include="Mappings\" />
     <Folder Include="Settings\" />
-    <Folder Include="Repositories\" />
     <Folder Include="Services\" />
   </ItemGroup>
 
