@@ -11,6 +11,7 @@
         {
             DataCriacao = DateTime.UtcNow;
             EstaFechado = false;
+            Produtos = new List<Produto>();
         }
 
         public void AdicionarProduto(Produto produto)
