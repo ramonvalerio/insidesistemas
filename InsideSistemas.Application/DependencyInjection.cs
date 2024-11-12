@@ -1,5 +1,4 @@
 ﻿using InsideSistemas.Application.Services;
-using InsideSistemas.Domain.Services;
 using InsideSistemas.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,9 +10,6 @@ namespace InsideSistemas.Application
         {
             // Application Services
             services.AddScoped<IPedidoAppService, PedidoAppService>();
-
-            // Domain Services
-            services.AddScoped<PedidoService, PedidoService>();
 
             // Infrastructure Services
             services.AddInfrastructureServices(connectionString);
