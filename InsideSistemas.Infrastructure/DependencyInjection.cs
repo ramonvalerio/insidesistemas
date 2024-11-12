@@ -10,9 +10,8 @@ namespace InsideSistemas.Infrastructure
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, string connectionString)
         {
-            // Add DbContext configuration
             services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(connectionString));
+                options.UseInMemoryDatabase("InsideSistemasDBInMemory"));
 
             // Add Repositories
             services.AddScoped<IPedidoRepository, PedidoRepository>();

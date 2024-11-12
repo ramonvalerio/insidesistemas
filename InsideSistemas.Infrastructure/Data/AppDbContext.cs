@@ -19,10 +19,8 @@ namespace InsideSistemas.Infrastructure.Data
             modelBuilder.Entity<Pedido>(entity =>
             {
                 entity.HasKey(p => p.Id);
-                entity.Property(p => p.DataCriacao)
-                      .IsRequired();
-                entity.Property(p => p.EstaFechado)
-                      .IsRequired();
+                entity.Property(p => p.DataCriacao).IsRequired();
+                entity.Property(p => p.EstaFechado).IsRequired();
                 entity.HasMany(p => p.Produtos)
                       .WithOne()
                       .OnDelete(DeleteBehavior.Cascade);
@@ -31,13 +29,9 @@ namespace InsideSistemas.Infrastructure.Data
             modelBuilder.Entity<Produto>(entity =>
             {
                 entity.HasKey(p => p.Id);
-                entity.Property(p => p.Nome)
-                      .IsRequired()
-                      .HasMaxLength(100);
-                entity.Property(p => p.Preco)
-                      .IsRequired();
-                entity.Property(p => p.Quantidade)
-                      .IsRequired();
+                entity.Property(p => p.Nome).IsRequired().HasMaxLength(100);
+                entity.Property(p => p.Preco).IsRequired();
+                entity.Property(p => p.Quantidade).IsRequired();
             });
         }
     }
