@@ -1,7 +1,6 @@
 ﻿using InsideSistemas.Application.Pedidos.Commands;
 using InsideSistemas.Application.Pedidos.DTOs;
-using InsideSistemas.Domain.Entities;
-using InsideSistemas.Domain.Repositories;
+using InsideSistemas.Domain.Models;
 
 namespace InsideSistemas.Application.Pedidos
 {
@@ -129,19 +128,25 @@ namespace InsideSistemas.Application.Pedidos
 
         private PedidoQuery MapToPedidoDTO(Pedido pedido)
         {
-            return new PedidoQuery
+            var pedidoQuery = new PedidoQuery
             {
                 Id = pedido.Id,
                 DataCriacao = pedido.DataCriacao,
-                EstaFechado = pedido.EstaFechado,
-                Produtos = pedido.Produtos.Select(p => new ProdutoQuery
+                Status = (pedido.EstaFechado ? "fechado" : "aberto")
+            };
+
+            if (pedido.Produtos.Count > 0)
+            {
+                pedidoQuery.Produtos = pedido.Produtos.Select(p => new ProdutoQuery
                 {
                     Id = p.Id,
                     Nome = p.Nome,
                     Preco = p.Preco,
                     Quantidade = p.Quantidade
-                }).ToList()
-            };
+                }).ToList();
+            }
+
+            return pedidoQuery;
         }
     }
 }

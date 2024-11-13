@@ -1,13 +1,20 @@
 using InsideSistemas.Application.Pedidos;
 using InsideSistemas.Application.Pedidos.Commands;
-using InsideSistemas.Domain.Entities;
-using InsideSistemas.Domain.Repositories;
+using InsideSistemas.Domain.Models;
 using Moq;
 
 namespace InsideSistemas.Test.AppServices
 {
     public class PedidoAppServiceTest
     {
+        private readonly string statusAberto;
+        private readonly string statusFechado;
+        public PedidoAppServiceTest()
+        {
+            statusAberto = "aberto";
+            statusFechado = "fechado";
+        }
+
         [Fact]
         public async Task Iniciar_Novo_Pedido_Corretamente()
         {
@@ -16,13 +23,14 @@ namespace InsideSistemas.Test.AppServices
             var pedidoAppService = new PedidoAppService(pedidoRepositoryMock.Object);
 
             // Act
-            var pedidoDTO = await pedidoAppService.IniciarNovoPedidoAsync();
+            var pedidoQuery = await pedidoAppService.IniciarNovoPedidoAsync();
 
             // Assert
-            Assert.NotNull(pedidoDTO);
-            Assert.False(pedidoDTO.EstaFechado);
-            Assert.Equal(DateTime.UtcNow.Date, pedidoDTO.DataCriacao.Date);
-            Assert.Empty(pedidoDTO.Produtos);
+            Assert.NotNull(pedidoQuery);
+            Assert.Equal(statusAberto, pedidoQuery.Status);
+            Assert.Equal(DateTime.UtcNow.Date, pedidoQuery.DataCriacao.Date);
+            Assert.Null(pedidoQuery.Produtos);
+
             pedidoRepositoryMock.Verify(repo => repo.AdicionarAsync(It.IsAny<Pedido>()), Times.Once);
             pedidoRepositoryMock.Verify(repo => repo.SalvarAlteracoesAsync(), Times.Once);
         }
@@ -50,7 +58,7 @@ namespace InsideSistemas.Test.AppServices
 
             // Assert
             Assert.NotNull(pedidoCommand);
-            Assert.False(pedidoCommand.EstaFechado);
+            Assert.Equal(statusAberto, pedidoCommand.Status);
             Assert.Single(pedidoCommand.Produtos);
             Assert.Equal(produtoCommand.Nome, pedidoCommand.Produtos[0].Nome);
             Assert.Equal(produtoCommand.Preco, pedidoCommand.Produtos[0].Preco);
@@ -74,12 +82,12 @@ namespace InsideSistemas.Test.AppServices
             var pedidoAppService = new PedidoAppService(pedidoRepositoryMock.Object);
 
             // Act
-            var pedidoDTO = await pedidoAppService.RemoverProdutoDoPedidoAsync(pedido.Id, produto.Id);
+            var pedidoQuery = await pedidoAppService.RemoverProdutoDoPedidoAsync(pedido.Id, produto.Id);
 
             // Assert
-            Assert.NotNull(pedidoDTO);
-            Assert.False(pedidoDTO.EstaFechado);
-            Assert.Empty(pedidoDTO.Produtos);
+            Assert.NotNull(pedidoQuery);
+            Assert.Equal(statusAberto, pedidoQuery.Status);
+            Assert.Null(pedidoQuery.Produtos);
 
             pedidoRepositoryMock.Verify(repo => repo.SalvarAlteracoesAsync(), Times.Once);
         }
@@ -117,11 +125,11 @@ namespace InsideSistemas.Test.AppServices
             var pedidoAppService = new PedidoAppService(pedidoRepositoryMock.Object);
 
             // Act
-            var pedidoDTO = await pedidoAppService.FecharPedidoAsync(pedido.Id);
+            var pedidoQuery = await pedidoAppService.FecharPedidoAsync(pedido.Id);
 
             // Assert
-            Assert.NotNull(pedidoDTO);
-            Assert.True(pedidoDTO.EstaFechado);
+            Assert.NotNull(pedidoQuery);
+            Assert.Equal(statusFechado, pedidoQuery.Status);
             pedidoRepositoryMock.Verify(repo => repo.SalvarAlteracoesAsync(), Times.Once);
         }
 
@@ -171,7 +179,6 @@ namespace InsideSistemas.Test.AppServices
 
             pedidoRepositoryMock.Verify(repo => repo.SalvarAlteracoesAsync(), Times.Never);
         }
-
 
         [Fact]
         public async Task Lancar_Excecao_Ao_Tentar_Remover_Produto_De_Pedido_Fechado()

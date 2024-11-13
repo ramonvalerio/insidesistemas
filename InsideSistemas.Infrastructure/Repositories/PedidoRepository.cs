@@ -1,5 +1,4 @@
-﻿using InsideSistemas.Domain.Entities;
-using InsideSistemas.Domain.Repositories;
+﻿using InsideSistemas.Domain.Models;
 using InsideSistemas.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 

@@ -5,7 +5,7 @@ using InsideSistemas.Application;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add All Services
-builder.Services.AddAllServices("My connectionString here");
+builder.Services.AddAllServices("InsideSistemasDBInMemory");
 
 // Add HotChocolate GraphQL Configuration
 builder.Services
@@ -16,7 +16,12 @@ builder.Services
     .AddSorting()
     .AddProjections();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
+    });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

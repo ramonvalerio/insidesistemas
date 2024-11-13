@@ -1,5 +1,8 @@
 ﻿using InsideSistemas.Application.Pedidos;
-using InsideSistemas.Infrastructure;
+using InsideSistemas.Domain.Models;
+using InsideSistemas.Infrastructure.Data;
+using InsideSistemas.Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace InsideSistemas.Application
@@ -11,8 +14,12 @@ namespace InsideSistemas.Application
             // Application Services
             services.AddScoped<IPedidoAppService, PedidoAppService>();
 
+            // Repositories
+            services.AddScoped<IPedidoRepository, PedidoRepository>();
+
             // Infrastructure Services
-            services.AddInfrastructureServices(connectionString);
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseInMemoryDatabase(connectionString));
 
             return services;
         }

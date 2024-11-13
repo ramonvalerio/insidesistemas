@@ -1,6 +1,4 @@
-﻿using InsideSistemas.Domain.Entities;
-
-namespace InsideSistemas.Domain.Repositories
+﻿namespace InsideSistemas.Domain.Models
 {
     public interface IPedidoRepository
     {

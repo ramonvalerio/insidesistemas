@@ -1,4 +1,4 @@
-﻿namespace InsideSistemas.Domain.Entities
+﻿namespace InsideSistemas.Domain.Models
 {
     public class Produto
     {

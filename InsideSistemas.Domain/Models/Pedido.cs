@@ -1,4 +1,4 @@
-﻿namespace InsideSistemas.Domain.Entities
+﻿namespace InsideSistemas.Domain.Models
 {
     public class Pedido : IAggregate
     {
@@ -18,6 +18,9 @@
         {
             if (EstaFechado)
                 throw new InvalidOperationException("Produtos não podem ser adicionados a um pedido fechado.");
+
+            if (Produtos.Any(p => p.Nome.Equals(produto.Nome, StringComparison.OrdinalIgnoreCase)))
+                throw new InvalidOperationException("Não é possível adicionar um produto com o mesmo nome.");
 
             Produtos.Add(produto);
         }
