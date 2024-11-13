@@ -4,7 +4,7 @@ namespace InsideSistemas.Api
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddApiServices(this IServiceCollection services)
+        public static IServiceCollection AddApi(this IServiceCollection services)
         {
             // Add HotChocolate GraphQL Configuration
             services

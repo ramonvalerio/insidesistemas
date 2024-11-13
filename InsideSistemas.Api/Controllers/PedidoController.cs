@@ -15,7 +15,6 @@ namespace InsideSistemas.Api.Controllers
             _pedidoAppService = pedidoAppService;
         }
 
-        // GET /api/pedidos/{pedidoId}
         [HttpGet("{pedidoId}")]
         public async Task<IActionResult> ObterPedidoPorId(int pedidoId)
         {
@@ -27,7 +26,6 @@ namespace InsideSistemas.Api.Controllers
             return Ok(pedido);
         }
 
-        // GET /api/pedidos
         [HttpGet]
         public async Task<IActionResult> ListarPedidos([FromQuery] string status, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
@@ -35,7 +33,6 @@ namespace InsideSistemas.Api.Controllers
             return Ok(paginatedResult);
         }
 
-        // POST /api/pedidos
         [HttpPost]
         public async Task<IActionResult> IniciarNovoPedido()
         {
@@ -43,7 +40,6 @@ namespace InsideSistemas.Api.Controllers
             return CreatedAtAction(nameof(ObterPedidoPorId), new { pedidoId = pedido.Id }, pedido);
         }
 
-        // POST /api/pedidos/{pedidoId}/produtos
         [HttpPost("{pedidoId}/produtos")]
         public async Task<IActionResult> AdicionarProdutoAoPedido(int pedidoId, [FromBody] ProdutoCommand produto)
         {
@@ -51,7 +47,6 @@ namespace InsideSistemas.Api.Controllers
             return Ok(pedidoAtualizado);
         }
 
-        // PATCH /api/pedidos/{pedidoId}/fechar
         [HttpPatch("{pedidoId}/fechar")]
         public async Task<IActionResult> FecharPedido(int pedidoId)
         {
@@ -59,7 +54,6 @@ namespace InsideSistemas.Api.Controllers
             return Ok(pedidoFechado);
         }
 
-        // DELETE /api/pedidos/{pedidoId}/produtos/{produtoId}
         [HttpDelete("{pedidoId}/produtos/{produtoId}")]
         public async Task<IActionResult> RemoverProdutoDoPedido(int pedidoId, int produtoId)
         {

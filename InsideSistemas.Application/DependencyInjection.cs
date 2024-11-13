@@ -1,15 +1,16 @@
 ﻿using InsideSistemas.Application.Pedidos;
 using InsideSistemas.Infrastructure;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace InsideSistemas.Application
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddApplicationServices(this IServiceCollection services, string databaseName)
+        public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IPedidoAppService, PedidoAppService>();
-            services.AddInfrastructureServices(databaseName);
+            services.AddInfrastructure(configuration);
 
             return services;
         }

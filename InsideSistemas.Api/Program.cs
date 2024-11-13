@@ -4,9 +4,9 @@ using InsideSistemas.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add Services
-builder.Services.AddApiServices();
-builder.Services.AddApplicationServices("InsideSistemasDBInMemory");
+builder.Services
+    .AddApi()
+    .AddApplication(builder.Configuration);
 
 var app = builder.Build();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
