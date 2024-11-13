@@ -8,5 +8,7 @@ namespace InsideSistemas.Domain.Repositories
         Task<IEnumerable<Pedido>> ListarTodosAsync();
         Task AdicionarAsync(Pedido pedido);
         Task SalvarAlteracoesAsync();
+        Task<int> ContarTotalAsync();
+        Task<IEnumerable<Pedido>> ListarPaginadosAsync(int pageNumber, int pageSize);
     }
 }

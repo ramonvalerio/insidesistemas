@@ -1,4 +1,5 @@
 ﻿using InsideSistemas.Application.Pedidos;
+using InsideSistemas.Application.Pedidos.Commands;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InsideSistemas.Api.Controllers
@@ -58,6 +59,13 @@ namespace InsideSistemas.Api.Controllers
         {
             var pedidos = await _pedidoAppService.ListarPedidosAsync();
             return Ok(pedidos);
+        }
+
+        [HttpGet("listar-paginacao")]
+        public async Task<IActionResult> ListarPedidosComPaginacao([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        {
+            var paginatedResult = await _pedidoAppService.ListarPedidosAsync(pageNumber, pageSize);
+            return Ok(paginatedResult);
         }
     }
 }

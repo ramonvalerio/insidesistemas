@@ -1,4 +1,6 @@
-﻿using InsideSistemas.Domain.Entities;
+﻿using InsideSistemas.Application.Pedidos.Commands;
+using InsideSistemas.Application.Pedidos.DTOs;
+using InsideSistemas.Domain.Entities;
 using InsideSistemas.Domain.Repositories;
 
 namespace InsideSistemas.Application.Pedidos
@@ -84,6 +86,22 @@ namespace InsideSistemas.Application.Pedidos
         {
             var pedidos = await _pedidoRepository.ListarTodosAsync();
             return pedidos.Select(MapToPedidoDTO);
+        }
+
+        public async Task<PaginatedResult<PedidoQuery>> ListarPedidosAsync(int pageNumber, int pageSize)
+        {
+            var totalItems = await _pedidoRepository.ContarTotalAsync();
+            var pedidos = await _pedidoRepository.ListarPaginadosAsync(pageNumber, pageSize);
+
+            var pedidoQueries = pedidos.Select(MapToPedidoDTO).ToList();
+
+            return new PaginatedResult<PedidoQuery>
+            {
+                Items = pedidoQueries,
+                TotalItems = totalItems,
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
         }
 
         public async Task<PedidoQuery> ObterPedidoPorIdAsync(int pedidoId)

@@ -1,4 +1,4 @@
-﻿namespace InsideSistemas.Application.Pedidos
+﻿namespace InsideSistemas.Application.Pedidos.Commands
 {
     public class ProdutoCommand
     {

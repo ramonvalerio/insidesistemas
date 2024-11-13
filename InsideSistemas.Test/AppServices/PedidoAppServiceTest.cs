@@ -1,4 +1,5 @@
 using InsideSistemas.Application.Pedidos;
+using InsideSistemas.Application.Pedidos.Commands;
 using InsideSistemas.Domain.Entities;
 using InsideSistemas.Domain.Repositories;
 using Moq;

@@ -1,4 +1,7 @@
-﻿namespace InsideSistemas.Application.Pedidos
+﻿using InsideSistemas.Application.Pedidos.Commands;
+using InsideSistemas.Application.Pedidos.DTOs;
+
+namespace InsideSistemas.Application.Pedidos
 {
     public interface IPedidoAppService
     {
@@ -11,6 +14,8 @@
         Task<PedidoQuery> FecharPedidoAsync(int pedidoId);
 
         Task<IEnumerable<PedidoQuery>> ListarPedidosAsync();
+
+        Task<PaginatedResult<PedidoQuery>> ListarPedidosAsync(int pageNumber, int pageSize);
 
         Task<PedidoQuery> ObterPedidoPorIdAsync(int pedidoId);
     }
