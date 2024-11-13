@@ -1,7 +1,6 @@
 using InsideSistemas.Api;
 using InsideSistemas.Api.Middlewares;
 using InsideSistemas.Application;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
@@ -22,6 +21,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 app.UseRouting();
+
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapGraphQL();

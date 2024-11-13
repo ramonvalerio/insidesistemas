@@ -1,5 +1,5 @@
-﻿using InsideSistemas.Application.Pedidos.Commands;
-using InsideSistemas.Application.Pedidos.DTOs;
+﻿using InsideSistemas.Application.Pedidos.Requests;
+using InsideSistemas.Application.Pedidos.Responses;
 using InsideSistemas.Domain.Models;
 
 namespace InsideSistemas.Application.Pedidos
@@ -13,7 +13,7 @@ namespace InsideSistemas.Application.Pedidos
             _pedidoRepository = pedidoRepository;
         }
 
-        public async Task<PedidoQuery> ObterPedidoPorIdAsync(int pedidoId)
+        public async Task<PedidoResponse> ObterPedidoPorIdAsync(int pedidoId)
         {
             var pedido = await _pedidoRepository.ObterPorIdAsync(pedidoId);
             if (pedido == null)
@@ -22,13 +22,13 @@ namespace InsideSistemas.Application.Pedidos
             return MapToPedidoDTO(pedido);
         }
 
-        public async Task<IEnumerable<PedidoQuery>> ListarPedidosAsync()
+        public async Task<IEnumerable<PedidoResponse>> ListarPedidosAsync()
         {
             var pedidos = await _pedidoRepository.ListarTodosAsync();
             return pedidos.Select(MapToPedidoDTO);
         }
 
-        public async Task<PaginatedResult<PedidoQuery>> ListarPedidosPorStatusAsync(string status, int pageNumber, int pageSize)
+        public async Task<PaginatedResult<PedidoResponse>> ListarPedidosPorStatusAsync(string status, int pageNumber, int pageSize)
         {
             bool estaFechado;
             if (status.Equals("aberto", StringComparison.OrdinalIgnoreCase))
@@ -49,7 +49,7 @@ namespace InsideSistemas.Application.Pedidos
 
             var pedidoQueries = pedidos.Select(MapToPedidoDTO).ToList();
 
-            return new PaginatedResult<PedidoQuery>
+            return new PaginatedResult<PedidoResponse>
             {
                 Items = pedidoQueries,
                 TotalItems = totalItems,
@@ -58,7 +58,7 @@ namespace InsideSistemas.Application.Pedidos
             };
         }
 
-        public async Task<PedidoQuery> IniciarNovoPedidoAsync()
+        public async Task<PedidoResponse> IniciarNovoPedidoAsync()
         {
             var novoPedido = new Pedido();
 
@@ -68,7 +68,7 @@ namespace InsideSistemas.Application.Pedidos
             return MapToPedidoDTO(novoPedido);
         }
 
-        public async Task<PedidoQuery> AdicionarProdutoAoPedidoAsync(int pedidoId, ProdutoCommand produtoDto)
+        public async Task<PedidoResponse> AdicionarProdutoAoPedidoAsync(int pedidoId, ProdutoRequest produtoDto)
         {
             var pedido = await _pedidoRepository.ObterPorIdAsync(pedidoId);
 
@@ -90,7 +90,7 @@ namespace InsideSistemas.Application.Pedidos
             return MapToPedidoDTO(pedido);
         }
 
-        public async Task<PedidoQuery> RemoverProdutoDoPedidoAsync(int pedidoId, int produtoId)
+        public async Task<PedidoResponse> RemoverProdutoDoPedidoAsync(int pedidoId, int produtoId)
         {
             var pedido = await _pedidoRepository.ObterPorIdAsync(pedidoId);
 
@@ -110,7 +110,7 @@ namespace InsideSistemas.Application.Pedidos
             return MapToPedidoDTO(pedido);
         }
 
-        public async Task<PedidoQuery> FecharPedidoAsync(int pedidoId)
+        public async Task<PedidoResponse> FecharPedidoAsync(int pedidoId)
         {
             var pedido = await _pedidoRepository.ObterPorIdAsync(pedidoId);
 
@@ -126,9 +126,9 @@ namespace InsideSistemas.Application.Pedidos
             return MapToPedidoDTO(pedido);
         }
 
-        private PedidoQuery MapToPedidoDTO(Pedido pedido)
+        private PedidoResponse MapToPedidoDTO(Pedido pedido)
         {
-            var pedidoQuery = new PedidoQuery
+            var pedidoQuery = new PedidoResponse
             {
                 Id = pedido.Id,
                 DataCriacao = pedido.DataCriacao,
@@ -137,7 +137,7 @@ namespace InsideSistemas.Application.Pedidos
 
             if (pedido.Produtos.Count > 0)
             {
-                pedidoQuery.Produtos = pedido.Produtos.Select(p => new ProdutoQuery
+                pedidoQuery.Produtos = pedido.Produtos.Select(p => new ProdutoResponse
                 {
                     Id = p.Id,
                     Nome = p.Nome,

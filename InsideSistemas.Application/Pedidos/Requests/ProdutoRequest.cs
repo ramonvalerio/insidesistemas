@@ -1,6 +1,6 @@
-﻿namespace InsideSistemas.Application.Pedidos.Commands
+﻿namespace InsideSistemas.Application.Pedidos.Requests
 {
-    public class ProdutoCommand
+    public class ProdutoRequest
     {
         public string Nome { get; set; }
 

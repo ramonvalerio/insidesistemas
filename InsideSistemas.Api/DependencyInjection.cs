@@ -11,9 +11,11 @@ namespace InsideSistemas.Api
                 .AddGraphQLServer()
                 .AddQueryType<PedidoQuery>()
                 .AddMutationType<PedidoMutation>()
+                .AddType<PedidoResolver>()
                 .AddFiltering()
                 .AddSorting()
                 .AddProjections();
+                //.RegisterDbContextFactory<AppDbContext>();
 
             services.AddControllers()
                 .AddJsonOptions(options =>

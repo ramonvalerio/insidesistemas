@@ -11,8 +11,11 @@ namespace InsideSistemas.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<AppDbContext>(options =>
-                options.UseInMemoryDatabase(configuration.GetSection("DatabaseSettings:ConnectionString").Value));
+            var connectionString = configuration.GetSection("DatabaseSettings:ConnectionString").Value;
+
+            services.
+                AddDbContext<AppDbContext>(options =>
+                options.UseInMemoryDatabase(connectionString));
 
             services.AddScoped<IPedidoRepository, PedidoRepository>();
 

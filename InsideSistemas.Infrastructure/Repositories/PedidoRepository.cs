@@ -22,9 +22,16 @@ namespace InsideSistemas.Infrastructure.Repositories
 
         public async Task<IEnumerable<Pedido>> ListarTodosAsync()
         {
-            return await _context.Pedidos
+            try
+            {
+                return await _context.Pedidos
                 .Include(p => p.Produtos)
                 .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public async Task<IEnumerable<Pedido>> ListarPaginadosPorStatusAsync(bool estaFechado, int pageNumber, int pageSize)

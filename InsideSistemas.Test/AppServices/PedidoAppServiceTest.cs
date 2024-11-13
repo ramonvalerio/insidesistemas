@@ -1,5 +1,5 @@
 using InsideSistemas.Application.Pedidos;
-using InsideSistemas.Application.Pedidos.Commands;
+using InsideSistemas.Application.Pedidos.Requests;
 using InsideSistemas.Domain.Models;
 using Moq;
 
@@ -46,7 +46,7 @@ namespace InsideSistemas.Test.AppServices
 
             var pedidoAppService = new PedidoAppService(pedidoRepositoryMock.Object);
 
-            var produtoCommand = new ProdutoCommand
+            var produtoCommand = new ProdutoRequest
             {
                 Nome = "Produto Teste",
                 Preco = 10.0m,
@@ -166,7 +166,7 @@ namespace InsideSistemas.Test.AppServices
 
             var pedidoAppService = new PedidoAppService(pedidoRepositoryMock.Object);
 
-            var produtoCommand = new ProdutoCommand
+            var produtoCommand = new ProdutoRequest
             {
                 Nome = "Produto Teste",
                 Preco = 10.0m,

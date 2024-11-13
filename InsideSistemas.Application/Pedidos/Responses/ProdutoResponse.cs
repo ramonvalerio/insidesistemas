@@ -1,6 +1,6 @@
-﻿namespace InsideSistemas.Application.Pedidos.DTOs
+﻿namespace InsideSistemas.Application.Pedidos.Responses
 {
-    public class ProdutoQuery
+    public class ProdutoResponse
     {
         public int Id { get; set; }
 

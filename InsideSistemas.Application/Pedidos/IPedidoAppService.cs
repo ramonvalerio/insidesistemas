@@ -1,22 +1,22 @@
-﻿using InsideSistemas.Application.Pedidos.Commands;
-using InsideSistemas.Application.Pedidos.DTOs;
+﻿using InsideSistemas.Application.Pedidos.Requests;
+using InsideSistemas.Application.Pedidos.Responses;
 
 namespace InsideSistemas.Application.Pedidos
 {
     public interface IPedidoAppService
     {
-        Task<PedidoQuery> ObterPedidoPorIdAsync(int pedidoId);
+        Task<PedidoResponse> ObterPedidoPorIdAsync(int pedidoId);
 
-        Task<IEnumerable<PedidoQuery>> ListarPedidosAsync();
+        Task<IEnumerable<PedidoResponse>> ListarPedidosAsync();
 
-        Task<PaginatedResult<PedidoQuery>> ListarPedidosPorStatusAsync(string status, int pageNumber, int pageSize);
+        Task<PaginatedResult<PedidoResponse>> ListarPedidosPorStatusAsync(string status, int pageNumber, int pageSize);
 
-        Task<PedidoQuery> IniciarNovoPedidoAsync();
+        Task<PedidoResponse> IniciarNovoPedidoAsync();
 
-        Task<PedidoQuery> AdicionarProdutoAoPedidoAsync(int pedidoId, ProdutoCommand produto);
+        Task<PedidoResponse> AdicionarProdutoAoPedidoAsync(int pedidoId, ProdutoRequest produto);
 
-        Task<PedidoQuery> RemoverProdutoDoPedidoAsync(int pedidoId, int produtoId);
+        Task<PedidoResponse> RemoverProdutoDoPedidoAsync(int pedidoId, int produtoId);
 
-        Task<PedidoQuery> FecharPedidoAsync(int pedidoId);
+        Task<PedidoResponse> FecharPedidoAsync(int pedidoId);
     }
 }

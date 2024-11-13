@@ -1,5 +1,5 @@
 ﻿using InsideSistemas.Application.Pedidos;
-using InsideSistemas.Application.Pedidos.Commands;
+using InsideSistemas.Application.Pedidos.Requests;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InsideSistemas.Api.Controllers
@@ -26,7 +26,14 @@ namespace InsideSistemas.Api.Controllers
             return Ok(pedido);
         }
 
-        [HttpGet]
+        [HttpGet("pedidos")]
+        public async Task<IActionResult> ListarPedidos()
+        {
+            var paginatedResult = await _pedidoAppService.ListarPedidosAsync();
+            return Ok(paginatedResult);
+        }
+
+        [HttpGet("pedidos/status")]
         public async Task<IActionResult> ListarPedidos([FromQuery] string status, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
             var paginatedResult = await _pedidoAppService.ListarPedidosPorStatusAsync(status, pageNumber, pageSize);
@@ -41,7 +48,7 @@ namespace InsideSistemas.Api.Controllers
         }
 
         [HttpPost("{pedidoId}/produtos")]
-        public async Task<IActionResult> AdicionarProdutoAoPedido(int pedidoId, [FromBody] ProdutoCommand produto)
+        public async Task<IActionResult> AdicionarProdutoAoPedido(int pedidoId, [FromBody] ProdutoRequest produto)
         {
             var pedidoAtualizado = await _pedidoAppService.AdicionarProdutoAoPedidoAsync(pedidoId, produto);
             return Ok(pedidoAtualizado);
