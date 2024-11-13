@@ -38,13 +38,13 @@ GraphQL(extra ainda em desenvolvimento) poderá ser acessada neste link:
 ## 📑 Endpoints Principais (Web API)
 
 Pedidos
-- **POST ```bash /api/pedidos```: Inicia um novo pedido.**
-- **PUT ```bash /api/pedidos/{id}/produtos```: Adiciona um produto ao pedido.**
-- **DELETE ```bash /api/pedidos/{id}/produtos/{produtoId}```: Remove um produto do pedido.**
-- **PUT ```bash /api/pedidos/{id}/fechar```: Fecha o pedido.**
-- **GET ```bash /api/pedidos/{id}```: Retorna um pedido específico por ID.**
-- **GET ```bash /api/pedidos```: Lista todos os pedidos.**
-- **GET ```bash /api/pedidos/status?status={status}&pageNumber={pageNumber}&pageSize={pageSize}```: Lista pedidos filtrados por status com paginação.**
+- **POST** ```bash /api/pedidos```: Inicia um novo pedido.
+- **PUT** ```bash /api/pedidos/{id}/produtos```: Adiciona um produto ao pedido.
+- **DELETE** ```bash /api/pedidos/{id}/produtos/{produtoId}```: Remove um produto do pedido.
+- **PUT** ```bash /api/pedidos/{id}/fechar```: Fecha o pedido.
+- **GET** ```bash /api/pedidos/{id}```: Retorna um pedido específico por ID.
+- **GET** ```bash /api/pedidos```: Lista todos os pedidos.
+- **GET** ```bash /api/pedidos/status?status={status}&pageNumber={pageNumber}&pageSize={pageSize}```: Lista pedidos filtrados por status com paginação.
 
 ## 🔍 Funcionalidades Extras (GraphQL)
 GraphQL está disponível como uma opção adicional para realizar consultas e mutações de dados.
