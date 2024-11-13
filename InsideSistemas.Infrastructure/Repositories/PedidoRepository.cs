@@ -28,18 +28,19 @@ namespace InsideSistemas.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public async Task<int> ContarTotalAsync()
-        {
-            return await _context.Pedidos.CountAsync();
-        }
-
-        public async Task<IEnumerable<Pedido>> ListarPaginadosAsync(int pageNumber, int pageSize)
+        public async Task<IEnumerable<Pedido>> ListarPaginadosPorStatusAsync(bool estaFechado, int pageNumber, int pageSize)
         {
             return await _context.Pedidos
-            .Include(p => p.Produtos)
-            .Skip((pageNumber - 1) * pageSize)
-            .Take(pageSize)
-            .ToListAsync();
+                .Where(p => p.EstaFechado == estaFechado)
+                .Include(p => p.Produtos)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
+
+        public async Task<int> ContarTotalPorStatusAsync(bool estaFechado)
+        {
+            return await _context.Pedidos.CountAsync(p => p.EstaFechado == estaFechado);
         }
 
         public async Task AdicionarAsync(Pedido pedido)

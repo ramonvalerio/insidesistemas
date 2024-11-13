@@ -15,6 +15,31 @@ namespace InsideSistemas.Api.Controllers
             _pedidoAppService = pedidoAppService;
         }
 
+        [HttpGet("{pedidoId}")]
+        public async Task<IActionResult> ObterPedidoPorId(int pedidoId)
+        {
+            var pedido = await _pedidoAppService.ObterPedidoPorIdAsync(pedidoId);
+            if (pedido == null)
+            {
+                return NotFound(new { Message = "Pedido não encontrado." });
+            }
+            return Ok(pedido);
+        }
+
+        [HttpGet("listar")]
+        public async Task<IActionResult> ListarPedidos()
+        {
+            var pedidos = await _pedidoAppService.ListarPedidosAsync();
+            return Ok(pedidos);
+        }
+
+        [HttpGet("listar-filtrar")]
+        public async Task<IActionResult> ListarPedidosComPaginacao([FromQuery] string status, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+        {
+            var paginatedResult = await _pedidoAppService.ListarPedidosPorStatusAsync(status, pageNumber, pageSize);
+            return Ok(paginatedResult);
+        }
+
         [HttpPost("iniciar")]
         public async Task<IActionResult> IniciarNovoPedido()
         {
@@ -41,31 +66,6 @@ namespace InsideSistemas.Api.Controllers
         {
             var pedidoAtualizado = await _pedidoAppService.RemoverProdutoDoPedidoAsync(pedidoId, produtoId);
             return Ok(pedidoAtualizado);
-        }
-
-        [HttpGet("{pedidoId}")]
-        public async Task<IActionResult> ObterPedidoPorId(int pedidoId)
-        {
-            var pedido = await _pedidoAppService.ObterPedidoPorIdAsync(pedidoId);
-            if (pedido == null)
-            {
-                return NotFound(new { Message = "Pedido não encontrado." });
-            }
-            return Ok(pedido);
-        }
-
-        [HttpGet("listar")]
-        public async Task<IActionResult> ListarPedidos()
-        {
-            var pedidos = await _pedidoAppService.ListarPedidosAsync();
-            return Ok(pedidos);
-        }
-
-        [HttpGet("listar-paginacao")]
-        public async Task<IActionResult> ListarPedidosComPaginacao([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
-        {
-            var paginatedResult = await _pedidoAppService.ListarPedidosAsync(pageNumber, pageSize);
-            return Ok(paginatedResult);
         }
     }
 }

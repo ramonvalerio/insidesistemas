@@ -14,6 +14,51 @@ namespace InsideSistemas.Application.Pedidos
             _pedidoRepository = pedidoRepository;
         }
 
+        public async Task<PedidoQuery> ObterPedidoPorIdAsync(int pedidoId)
+        {
+            var pedido = await _pedidoRepository.ObterPorIdAsync(pedidoId);
+            if (pedido == null)
+                return null;
+
+            return MapToPedidoDTO(pedido);
+        }
+
+        public async Task<IEnumerable<PedidoQuery>> ListarPedidosAsync()
+        {
+            var pedidos = await _pedidoRepository.ListarTodosAsync();
+            return pedidos.Select(MapToPedidoDTO);
+        }
+
+        public async Task<PaginatedResult<PedidoQuery>> ListarPedidosPorStatusAsync(string status, int pageNumber, int pageSize)
+        {
+            bool estaFechado;
+            if (status.Equals("aberto", StringComparison.OrdinalIgnoreCase))
+            {
+                estaFechado = false;
+            }
+            else if (status.Equals("fechado", StringComparison.OrdinalIgnoreCase))
+            {
+                estaFechado = true;
+            }
+            else
+            {
+                throw new ArgumentException("Status inválido. Use 'aberto' ou 'fechado'.");
+            }
+
+            var totalItems = await _pedidoRepository.ContarTotalPorStatusAsync(estaFechado);
+            var pedidos = await _pedidoRepository.ListarPaginadosPorStatusAsync(estaFechado, pageNumber, pageSize);
+
+            var pedidoQueries = pedidos.Select(MapToPedidoDTO).ToList();
+
+            return new PaginatedResult<PedidoQuery>
+            {
+                Items = pedidoQueries,
+                TotalItems = totalItems,
+                PageNumber = pageNumber,
+                PageSize = pageSize
+            };
+        }
+
         public async Task<PedidoQuery> IniciarNovoPedidoAsync()
         {
             var novoPedido = new Pedido();
@@ -79,37 +124,6 @@ namespace InsideSistemas.Application.Pedidos
             pedido.FecharPedido();
 
             await _pedidoRepository.SalvarAlteracoesAsync();
-            return MapToPedidoDTO(pedido);
-        }
-
-        public async Task<IEnumerable<PedidoQuery>> ListarPedidosAsync()
-        {
-            var pedidos = await _pedidoRepository.ListarTodosAsync();
-            return pedidos.Select(MapToPedidoDTO);
-        }
-
-        public async Task<PaginatedResult<PedidoQuery>> ListarPedidosAsync(int pageNumber, int pageSize)
-        {
-            var totalItems = await _pedidoRepository.ContarTotalAsync();
-            var pedidos = await _pedidoRepository.ListarPaginadosAsync(pageNumber, pageSize);
-
-            var pedidoQueries = pedidos.Select(MapToPedidoDTO).ToList();
-
-            return new PaginatedResult<PedidoQuery>
-            {
-                Items = pedidoQueries,
-                TotalItems = totalItems,
-                PageNumber = pageNumber,
-                PageSize = pageSize
-            };
-        }
-
-        public async Task<PedidoQuery> ObterPedidoPorIdAsync(int pedidoId)
-        {
-            var pedido = await _pedidoRepository.ObterPorIdAsync(pedidoId);
-            if (pedido == null)
-                return null;
-
             return MapToPedidoDTO(pedido);
         }
 

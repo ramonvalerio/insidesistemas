@@ -6,9 +6,9 @@ namespace InsideSistemas.Domain.Repositories
     {
         Task<Pedido> ObterPorIdAsync(int id);
         Task<IEnumerable<Pedido>> ListarTodosAsync();
+        Task<IEnumerable<Pedido>> ListarPaginadosPorStatusAsync(bool status, int pageNumber, int pageSize);
+        Task<int> ContarTotalPorStatusAsync(bool status);
         Task AdicionarAsync(Pedido pedido);
         Task SalvarAlteracoesAsync();
-        Task<int> ContarTotalAsync();
-        Task<IEnumerable<Pedido>> ListarPaginadosAsync(int pageNumber, int pageSize);
     }
 }
