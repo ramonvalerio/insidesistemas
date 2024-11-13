@@ -1,25 +1,15 @@
 ﻿using InsideSistemas.Application.Pedidos;
-using InsideSistemas.Domain.Models;
-using InsideSistemas.Infrastructure.Data;
-using InsideSistemas.Infrastructure.Repositories;
-using Microsoft.EntityFrameworkCore;
+using InsideSistemas.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace InsideSistemas.Application
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddAllServices(this IServiceCollection services, string connectionString)
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services, string databaseName)
         {
-            // Application Services
             services.AddScoped<IPedidoAppService, PedidoAppService>();
-
-            // Repositories
-            services.AddScoped<IPedidoRepository, PedidoRepository>();
-
-            // Infrastructure Services
-            services.AddDbContext<AppDbContext>(options =>
-                options.UseInMemoryDatabase(connectionString));
+            services.AddInfrastructureServices(databaseName);
 
             return services;
         }
