@@ -50,7 +50,7 @@ Pedidos
 GraphQL está disponível como uma opção adicional para realizar consultas e mutações de dados.
 Os endpoints estão configurados para facilitar a interação com pedidos e produtos.
 Obs.: Porém ainda não está 100% devido a um problema com incompatibilidade devido a natureza do DbContext do EntityFramework Core não lidar com as chamadas paralelas do GraphQL (Hot Chocolate).
-https://chillicream.com/docs/hotchocolate/v14/integrations/entity-framework
+```bashhttps://chillicream.com/docs/hotchocolate/v14/integrations/entity-framework```
 
 ## 🛠️ Problemas Conhecidos
 A base de dados InMemory é volátil e será reiniciada cada vez que a aplicação for reiniciada. Isso é esperado para ambientes de desenvolvimento e teste.
